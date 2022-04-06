@@ -1,10 +1,8 @@
-FROM alpine:3.7
+FROM alpine:latest
 
 LABEL MAINTAINER="Aurelien PERRIER <a.perrier89@gmail.com>"
 LABEL APP="mariadb"
-LABEL APP_REPOSITORY="https://pkgs.alpinelinux.org/package/edge/main/aarch64/mysql"
 
-ENV TIMEZONE Europe/Paris
 ENV MYSQL_ROOT_PASSWORD root
 ENV MYSQL_DATABASE app
 ENV MYSQL_USER app
