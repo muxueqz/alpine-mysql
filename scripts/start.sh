@@ -29,10 +29,12 @@ else
 	echo "[i] Create temp file: $tfile"
 	cat << EOF > $tfile
 USE mysql;
-FLUSH PRIVILEGES;
-DELETE FROM mysql.user;
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION;
-GRANT SELECT, SHOW VIEW, PROCESS ON *.* TO '$MYSQL_USER_MONITORING'@'%' IDENTIFIED BY '$MYSQL_PASSWORD_MONITORING' WITH GRANT OPTION;
+FLUSH PRIVILEGES ;
+GRANT ALL ON *.* TO 'root'@'%' identified by '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION ;
+GRANT ALL ON *.* TO 'root'@'localhost' identified by '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION ;
+SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}') ;
+DROP DATABASE IF EXISTS test ;
+FLUSH PRIVILEGES ;
 EOF
 
 
@@ -66,4 +68,4 @@ echo "[i] Sleeping 5 sec"
 sleep 5
 
 echo "Starting all process"
-exec /usr/bin/mysqld --user=mysql --console
+exec /usr/bin/mysqld --user=mysql --console --skip-name-resolve --skip-networking=0
